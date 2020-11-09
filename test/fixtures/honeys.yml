@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  source: MyString
+  harvest: MyString
+  benefits: MyString
+  crystallization: MyString
+  product: one
+
+two:
+  type: 
+  source: MyString
+  harvest: MyString
+  benefits: MyString
+  crystallization: MyString
+  product: two

@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  variety: MyString
+  acidity: 9.99
+  appearance: MyString
+  aroma: MyString
+  taste: MyString
+  uses: MyString
+  size: MyString
+  product: one
+
+two:
+  variety: MyString
+  acidity: 9.99
+  appearance: MyString
+  aroma: MyString
+  taste: MyString
+  uses: MyString
+  size: MyString
+  product: two
