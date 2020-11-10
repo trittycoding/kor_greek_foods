@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HoneyTest < ActiveSupport::TestCase
+class CustomerProvinceTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
