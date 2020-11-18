@@ -14,7 +14,8 @@ Category.delete_all
 # Creating categories
 Category.create(name: 'Extra Virgin Olive Oil')
 Category.create(name: 'Honey and Bee Products')
-Category.create(name: 'Olives + Herbs')
+Category.create(name: 'Olives')
+Category.create(name: 'Tea & Herbs')
 
 # Creating Provinces
 provinces = [{ name: 'British Columbia', abbreviation: 'B.C.' },
@@ -38,7 +39,7 @@ end
 # Using Faker to generate placeholder data
 # Products have a name, price, category, description and stock quantity
 
-20.times do
+100.times do
   product = Product.create(name: Faker::Food.unique.ingredient,
                            price: Faker::Number.decimal(l_digits: 2, r_digits: 2),
                            category: Category.all.sample,

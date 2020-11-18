@@ -1,1 +1,1 @@
-JBuilder.key_format camelize: :lower
+# JBuilder.key_format camelize: :lower
