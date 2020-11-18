@@ -1,0 +1,2 @@
+class CustomerProvince < ApplicationRecord
+end
