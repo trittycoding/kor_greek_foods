@@ -1,11 +1,13 @@
 require 'csv'
 
+# Resetting all tables
 Productorder.delete_all
 Order.delete_all
 Product.delete_all
 User.delete_all
 CustomerProvince.delete_all
 Category.delete_all
+AdminUser.delete_all
 
 # filename = Rails.root.join("db/products.csv")
 # csv_data = File.read(filename)
@@ -59,4 +61,8 @@ end
 puts "Created #{Category.count} categories"
 puts "Created #{Product.count} products"
 puts "Created #{CustomerProvince.count} provinces"
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+# If the rails environment is development, use this as admin
+if Rails.env.development?
+  AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+end
