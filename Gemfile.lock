@@ -278,7 +278,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.1.8)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.1)
@@ -295,6 +294,7 @@ DEPENDENCIES
   faker!
   image_processing
   jbuilder (~> 2.7)
+  kaminari
   listen (~> 3.2)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
@@ -309,7 +309,6 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
-  will_paginate (~> 3.1.0)
 
 RUBY VERSION
    ruby 2.7.1p83

@@ -57,6 +57,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'activeadmin' # Adds admin dashboard
 gem 'devise' # Adds username and password authentication library
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
-gem 'will_paginate', '~> 3.1.0'
+gem 'kaminari'
 gem 'react-rails'
 gem 'image_processing'
