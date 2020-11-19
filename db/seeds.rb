@@ -19,6 +19,11 @@ Category.create(name: 'Honey and Bee Products')
 Category.create(name: 'Olives')
 Category.create(name: 'Tea & Herbs')
 
+# Calling unsplash API to gather images
+query = URI.encode_www_form_component([category.name])
+found_image = URI.open("https://source.unsplash.com/600x600?#{query}")
+product.image.attach(io: found_image, filename: "#{category.name}.jpg")
+
 # Creating Provinces
 provinces = [{ name: 'British Columbia', abbreviation: 'B.C.' },
              { name: 'Alberta', abbreviation: 'AB' },
@@ -47,6 +52,11 @@ end
                            category: Category.all.sample,
                            stockquantity: Faker::Number.number(digits: 2),
                            description: Faker::Food.description)
+
+  # Calling unsplash API to gather images
+  query2 = URI.encode_www_form_component([product.name])
+  found_image2 = URI.open("https://source.unsplash.com/600x600?#{query2}")
+  product.image.attach(io: found_image2, filename: "#{product.name}.jpg")
 
   # Output errors if not valid
   next if product&.valid?
