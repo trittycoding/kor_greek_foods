@@ -11,12 +11,68 @@
   </head>
 
   <body>
-    <section class="section">
+
+  <section class="hero is-success is-small">
+  <!-- Hero head: will stick at the top -->
+  <div class="hero-head">
+    <header class="navbar">
       <div class="container">
-        <h1 class="title is-1"><%= link_to 'Kor Greek Products', root_path %></h1>
-        <h3 class="title is-3">Your home for Greek Imports</h3>
+        <div class="navbar-brand">
+          <a class="navbar-item">
+            <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo">
+          </a>
+          <span class="navbar-burger burger" data-target="navbarMenuHeroC">
+            <span><a class="navbar-item is-active" href="<%=root_path%>">Home</a></span>
+            <span><a class="navbar-item" href="<%=admin_user_session_path%>">Admin</a></span>
+            <span><a class="navbar-item" href="<%=admin_user_session_path%>">Login</a></span>
+          </span>
+        </div>
+        <div id="navbarMenuHeroC" class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item is-active" href="<%=root_path%>">Home</a>
+            <a class="navbar-item" href="<%=admin_user_session_path%>">Admin</a>
+            <a class="navbar-item" href="<%=admin_user_session_path%>">Login</a>
+
+            <span class="navbar-item">
+              <a class="button is-link" href="<%=admin_user_session_path%>">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Create an Account</span>
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
-    </section>
+    </header>
+  </div>
+
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Kor Greek Products
+      </h1>
+      <h2 class="subtitle">
+        Your Destination For Greek Imports
+      </h2>
+    </div>
+  </div>
+
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+          <li><a href="<%=products_path%>">Products</a></li>
+          <li><a>Search</a></li>
+          <li><a>About Us</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+
     <%= yield %>
   </body>
 </html>
