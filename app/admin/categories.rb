@@ -1,5 +1,5 @@
 ActiveAdmin.register Category do
-  permit_params :name
+  permit_params :name, :image
 
   # DSL form - used to modify active admin form for Category
   form do |f|
