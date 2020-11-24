@@ -3,7 +3,6 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  belongs_to :customer_provinces
+  belongs_to :provinces, optional: true
   validates :email, uniqueness: true, presence: true
-  validates :customer_province_id, presence: true
 end
