@@ -3,14 +3,17 @@
   <% @categories.each do |category|%>
     <div class="column">
       <div class="card">
+
         <div class="card-image">
           <figure class="image">
             <%= image_tag category.image.variant(resize_to_limit: [240, 240]).processed if category.image.attached?%>
           </figure>
         </div>
+
         <div class="card-content">
           <h4><%= link_to category.name, category%></h4>
         </div>
+
       </div>
     </div>
   <% end %>
