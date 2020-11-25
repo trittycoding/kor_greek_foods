@@ -1,5 +1,8 @@
 class User < ApplicationRecord
-  belongs_to :customer_provinces
-  validates :distributor, :email, uniqueness: true, presence: true
-  validates :customer_province_id, presence: true
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  belongs_to :provinces, optional: true
+  validates :email, uniqueness: true, presence: true
 end

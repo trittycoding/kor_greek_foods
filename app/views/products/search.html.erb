@@ -1,0 +1,50 @@
+<h1 class="title"><%= @search_results.count%> Products Found</h1>
+
+<%= render partial: "product_search"%>
+
+<!--Cards that display product categories-->
+<% if @search_results.count <= 12 %>
+  <% @search_results.each_slice(4).to_a.each do |product_row| %>
+      <div class="columns">
+      <% product_row.each do |product|%>
+      <div class="column">
+        <div class="card">
+          <div class="card-image">
+            <figure class="image is-4by3">
+              <%= image_tag product.image if product.image.attached?%>
+            </figure>
+          </div>
+          <div class="card-content">
+            <h4><%= link_to product.name, product%></h4>
+            <p><%= product.price%></p>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  <% end %>
+
+<% else %>
+  <% @paginated_search_results.each_slice(4).to_a.each do |product_row|%>
+    <div class="columns">
+    <% product_row.each do |product|%>
+    <div class="column">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <%= image_tag product.image if product.image.attached?%>
+          </figure>
+        </div>
+        <div class="card-content">
+          <h4><%= link_to product.name, product%></h4>
+          <p><%= product.price%></p>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    </div>
+  <% end %>
+  <%= paginate @paginated_search_results%>
+
+<% end %>
+

@@ -1,2 +1,0 @@
-class CustomerProvince < ApplicationRecord
-end

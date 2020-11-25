@@ -5,19 +5,34 @@ Productorder.delete_all
 Order.delete_all
 Product.delete_all
 User.delete_all
-CustomerProvince.delete_all
+Province.delete_all
 Category.delete_all
 AdminUser.delete_all
+Page.delete_all
 
-# filename = Rails.root.join("db/products.csv")
-# csv_data = File.read(filename)
-# products = CSV.parse(csv_data, headers: true, encoding: "utf-8")
+Page.create(
+  title: 'About Us',
+  content: 'Data powered by Unsplash and Faker',
+  permalink: 'about_us'
+)
+
+Page.create(
+  title: 'Contact Us',
+  content: 'Feel free to contact us at korgreekproducts@example.com',
+  permalink: 'contact_us'
+)
 
 # Creating categories
-Category.create(name: 'Extra Virgin Olive Oil')
-Category.create(name: 'Honey and Bee Products')
-Category.create(name: 'Olives')
-Category.create(name: 'Tea & Herbs')
+olive_oil = Category.create(name: 'Extra Virgin Olive Oil')
+honey = Category.create(name: 'Honey and Bee Products')
+olives = Category.create(name: 'Olives')
+tea = Category.create(name: 'Tea & Herbs')
+
+# Attaching images to categories
+olive_oil.image.attach(io: File.open('app/assets/images/oliveoil.jpg'), filename: 'oliveoil.jpg')
+honey.image.attach(io: File.open('app/assets/images/honey.jpg'), filename: 'honey.jpg')
+olives.image.attach(io: File.open('app/assets/images/greenolives.jpg'), filename: 'greenolives.jpg')
+tea.image.attach(io: File.open('app/assets/images/plants.jpg'), filename: 'plants.jpg')
 
 # Creating Provinces
 provinces = [{ name: 'British Columbia', abbreviation: 'B.C.' },
@@ -35,7 +50,7 @@ provinces = [{ name: 'British Columbia', abbreviation: 'B.C.' },
              { name: 'Yukon', abbreviation: 'YK' }]
 
 provinces.each do |province|
-  CustomerProvince.create(name: province[:name], abbreviation: province[:abbreviation])
+  Province.create(name: province[:name], abbreviation: province[:abbreviation])
 end
 
 # Using Faker to generate placeholder data
@@ -47,6 +62,11 @@ end
                            category: Category.all.sample,
                            stockquantity: Faker::Number.number(digits: 2),
                            description: Faker::Food.description)
+
+  # Calling unsplash API to gather images
+  query2 = URI.encode_www_form_component([product.name])
+  found_image2 = URI.open("https://source.unsplash.com/600x600?#{query2}")
+  product.image.attach(io: found_image2, filename: "#{product.name}.jpg")
 
   # Output errors if not valid
   next if product&.valid?
@@ -60,7 +80,7 @@ end
 end
 puts "Created #{Category.count} categories"
 puts "Created #{Product.count} products"
-puts "Created #{CustomerProvince.count} provinces"
+puts "Created #{Province.count} provinces"
 
 # If the rails environment is development, use this as admin
 if Rails.env.development?
