@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'pages/index'
+  get 'pages/show'
+  get 'page/index'
+  get 'page/show'
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   resources :home, only: [:index]
