@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   resources :home, only: [:index]
-  resources :products, only: %i[index show]
+  resources :products, only: %i[index show] do
+    collection do
+      get 'search'
+    end
+  end
   resources :categories, only: %i[index show]
   resources :orders, only: %i[index show]
 

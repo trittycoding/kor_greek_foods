@@ -1,2 +1,44 @@
-<h1>Products#show</h1>
-<p>Find me in app/views/products/show.html.erb</p>
+<div class="tile is-ancestor">
+  <div class="tile is-vertical is-8">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child box">
+          <p class="title">Product Name</p>
+          <p class="subtitle"><%=@product.name %></p>
+        </article>
+        <article class="tile is-child box">
+          <p class="title">Price</p>
+          <p class="subtitle"><%=number_to_currency(@product.price)%></p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title">Product Image</p>
+          <figure class="image is-4by3">
+            <%= image_tag @product.image if @product.image.attached?%>
+          </figure>
+        </article>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child box">
+        <p class="title">Stock Quantity</p>
+        <p class="subtitle"><%=@product.stockquantity%> in stock</p>
+        <div class="content">
+          <!-- Content -->
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="tile is-parent">
+    <article class="tile is-child box">
+      <div class="content">
+        <p class="title">About This Product</p>
+        <p class="subtitle">Description + Use Cases</p>
+        <div class="content">
+          <p><%=@product.description%></p>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
