@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/pages/send_mail' => 'pages#send_mail', as: :send_mail
   resources :pages, except: [:show]
   get '/pages/:permalink' => 'pages#permalink', as: :permalink
   devise_for :users
