@@ -33,12 +33,21 @@
           <div class="navbar-end">
             <a class="navbar-item is-active" href="<%=root_path%>">Home</a>
             <a class="navbar-item" href="<%=admin_user_session_path%>">Admin</a>
-            <a class="navbar-item" href="<%=admin_user_session_path%>">Login</a>
+            <% if user_signed_in? %>
+            <% else %>
+              <a class="navbar-item" href="<%=new_user_session_path%>">Login</a>
+            <% end %>
 
             <span class="navbar-item">
-              <a class="button is-link" href="<%=new_user_session_path%>">
-                <span>Create an Account</span>
-              </a>
+              <% if user_signed_in? %>
+                <a class="navbar-item" href="<%= permalink_path('offers')%>">Offers</a>
+                <a class="navbar-item" href=""><%=current_user.email%></a>
+                <%=link_to "Sign Out", destroy_user_session_path, method: :delete, class: "button is-link"%>
+              <% else %>
+                <a class="button is-link" href="<%=new_user_session_path%>">
+                  <span>Create an Account</span>
+                </a>
+            <%end%>
             </span>
           </div>
         </div>
@@ -61,7 +70,8 @@
           <li><a href="<%=products_path%>">Products</a></li>
           <li><a>On Sale</a></li>
           <li><a>New Products</a></li>
-          <li><a>About Us</a></li>
+          <li><a href="<%=permalink_path('contact_us')%>">Contact</a></li>
+          <li><a href="<%=permalink_path('about_us')%>">About Us</a></li>
         </ul>
       </div>
     </nav>

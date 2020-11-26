@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  get 'pages/index'
-  get 'pages/show'
-  get 'page/index'
-  get 'page/show'
+  resources :pages, except: [:show]
+  get '/pages/:permalink' => 'pages#permalink', as: :permalink
   devise_for :users
+  resources :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   resources :home, only: [:index]
   resources :products, only: %i[index show] do
