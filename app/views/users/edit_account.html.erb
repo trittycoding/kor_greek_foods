@@ -1,0 +1,35 @@
+<!--Users have a name, province, address, email-->
+<%= form_with(model: current_user, url: post_account_changes_path, method: :post, local: true) do %>
+  <div class="field">
+    <div class="control">
+      <%= text_field_tag(:email, nil, class: "input is-rounded is-success", placeholder: current_user.email, disabled: true) %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= text_field_tag(:name, current_user.name, class: "input is-rounded is-success", placeholder: 'Name') %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= text_field_tag(:address, current_user.address, class: "input is-rounded is-success", placeholder: '555 Fake St, Winnipeg') %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <div class="select is-rounded is-success">
+
+          <%= collection_select(:user, :province_id, Province.all, :id, :name)%>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= submit_tag("Update", class: "button is-primary") %>
+    </div>
+  </div>
+<% end %>

@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :pages, except: [:show]
   get '/pages/:permalink' => 'pages#permalink', as: :permalink
   devise_for :users
-  resources :users
+  resources :users, except: [:edit]
+  get '/users/:email/edit' => 'users#edit_account', as: :edit_account
+  post 'users/:email/edit' => 'users#post_account_changes', as: :post_account_changes
   devise_for :admin_users, ActiveAdmin::Devise.config
   resources :home, only: [:index]
   resources :products, only: %i[index show] do
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   get 'users/index'
   get 'users/show'
+  get 'users/edit'
   get 'products/index'
   get 'products/show'
   get 'categories/index'

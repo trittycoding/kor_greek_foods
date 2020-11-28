@@ -41,7 +41,7 @@
             <span class="navbar-item">
               <% if user_signed_in? %>
                 <a class="navbar-item" href="<%= permalink_path('offers')%>">Offers</a>
-                <a class="navbar-item" href=""><%=current_user.email%></a>
+                <%= link_to current_user.email, edit_account_path(current_user), method: :get, class: "navbar-item"%>
                 <%=link_to "Sign Out", destroy_user_session_path, method: :delete, class: "button is-link"%>
               <% else %>
                 <a class="button is-link" href="<%=new_user_session_path%>">
