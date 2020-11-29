@@ -7,9 +7,7 @@ class CartController < ApplicationController
     # Turning product ID into integer, push id to cart array
     id = params[:id].to_i
     quantity = params['quantity'].to_i
-    quantity.times do
-      session[:user_cart] << id
-    end
+    session[:user_cart] << id
     item_quantity_hash[id] = quantity
     flash[:products_added] = 'Item(s) added to cart'
     redirect_to root_path
@@ -27,5 +25,13 @@ class CartController < ApplicationController
 
   def show
     @cart_items = cart
+  end
+
+  def adjust_quantity
+    quantity = params[:quantity].to_i
+    id_number = params[:id].to_s
+    adjust_item_quantity(id_number, quantity)
+    flash[:quantity_adjusted] = 'Quantities adjusted for items'
+    redirect_to root_path
   end
 end

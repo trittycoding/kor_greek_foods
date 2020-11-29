@@ -1,31 +1,49 @@
 <% if session[:user_cart].count == 0%>
 <p>Nothing in the cart!</p>
 <% else %>
-  <table class="table is-bordered is-striped">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Line Total</th>
-      </tr>
-    </thead>
+  <div class="columns">
+    <div class="column is-half">
+    <h3 class="subtitle">Current Cart</h3>
+      <table class="table is-bordered is-striped">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Line Total</th>
+          </tr>
+        </thead>
 
-    <tbody>
-    <% total = 0 %>
-    <% @cart_items.each do |item|%>
-    <tr>
-        <% count = get_item_quantity(item.id.to_s).to_i%>
-        <td><%= link_to item.name, item%></td>
-        <td><%=count%></td>
-        <td><%=number_to_currency item.price%></td>
-        <% line_total = (count * item.price.to_f)%>
-        <td><%=number_to_currency line_total%></td>
-        <td><%= link_to 'Remove', cart_path(item), method: :delete%></td>
-        <% total = total + line_total%>
-      </tr>
-    <%end%>
-    </tbody>
-  </table>
-  <p>Total: <%= number_to_currency total%></p>
+        <tbody>
+        <% total = 0 %>
+        <% @cart_items.each do |item|%>
+        <tr>
+            <% count = get_item_quantity(item.id.to_s).to_i%>
+            <td><%= link_to item.name, item%></td>
+            <td><%=count%></td>
+            <td><%=number_to_currency item.price%></td>
+            <% line_total = (count * item.price.to_f)%>
+            <td><%=number_to_currency line_total%></td>
+            <td><%= link_to 'Remove', cart_path(item), method: :delete%></td>
+            <% total = total + line_total%>
+          </tr>
+        <%end%>
+        </tbody>
+      </table>
+      <p>Total: <%= number_to_currency total%></p>
+      </div>
+
+      <div class="column is-half">
+        <h3 class="subtitle">Quantity Adjustments</h3>
+            <% @cart_items.each do |item|%>
+            <%= form_with(url: adjust_quantity_path, method: :post, local: true) do%>
+              <% count = get_item_quantity(item.id.to_s).to_i%>
+              <%= link_to item.name, item, class: "label"%>
+              <%= hidden_field_tag(:id, item.id)%>
+              <%= number_field_tag(:quantity, count, min: 1, max: item.stockquantity)%>
+              <%= button_tag 'Adjust', class: "button is-primary"%>
+            <%end%>
+          <%end%>
+      </div>
+    </div>
   <%end%>

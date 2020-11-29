@@ -15,8 +15,9 @@ Rails.application.routes.draw do
   end
   resources :categories, only: %i[index show]
   resources :orders, only: %i[index show]
-  resources :cart, only: %i[create destroy show]
+  resources :cart, only: %i[create destroy show adjust_quantity]
   get '/cart/show' => 'cart#show', as: :cart_show
+  post '/cart/adjust_quantity/' => 'cart#adjust_quantity', as: :adjust_quantity
 
   ActiveAdmin.routes(self)
   get 'users/index'

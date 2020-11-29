@@ -87,6 +87,9 @@
 <% if flash[:product_removed]%>
   <p><%=flash[:product_removed]%></p>
 <%end%>
+<% if flash[:quantity_adjusted]%>
+  <p><%=flash[:quantity_adjusted]%></p>
+<%end%>
     <%= yield %>
     <%= render partial: "common/footer"%>
     <%= debug session[:user_cart] %>

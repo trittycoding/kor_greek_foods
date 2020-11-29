@@ -28,4 +28,8 @@ class ApplicationController < ActionController::Base
   def get_item_quantity(id_number)
     session[:item_quantity][id_number]
   end
+
+  def adjust_item_quantity(id_number, quantity)
+    session[:item_quantity][id_number] = quantity
+  end
 end
