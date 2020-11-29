@@ -33,7 +33,7 @@
           <div class="navbar-end">
             <a class="navbar-item is-active" href="<%=root_path%>">Home</a>
             <a class="navbar-item" href="<%=admin_user_session_path%>">Admin</a>
-            <a class="navbar-item" href="">Cart(<%=session[:user_cart].count%>)</a>
+            <a class="navbar-item" href="<%=cart_show_path%>">Cart(<%=session[:user_cart].count%>)</a>
             <% if user_signed_in? %>
             <% else %>
               <a class="navbar-item" href="<%=new_user_session_path%>">Login</a>
@@ -84,8 +84,12 @@
 <% if flash[:notice]%>
   <p><%=flash[:notice]%></p>
 <%end%>
+<% if flash[:product_removed]%>
+  <p><%=flash[:product_removed]%></p>
+<%end%>
     <%= yield %>
     <%= render partial: "common/footer"%>
     <%= debug session[:user_cart] %>
+    <%= debug session[:item_quantity]%>
   </body>
 </html>
