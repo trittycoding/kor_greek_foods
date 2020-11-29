@@ -22,10 +22,14 @@
     </div>
     <div class="tile is-parent">
       <article class="tile is-child box">
-        <p class="title">Stock Quantity</p>
+        <p class="title">Quantity</p>
         <p class="subtitle"><%=@product.stockquantity%> in stock</p>
         <div class="content">
-          <!-- Content -->
+            <%= form_with url: cart_index_path do%>
+              <%= hidden_field_tag(:id, @product.id)%>
+              <%= number_field_tag('quantity', nil, min: 1, max: @product.stockquantity )%>
+              <%= button_tag 'Add to Cart'%>
+            <%end%>
         </div>
       </article>
     </div>

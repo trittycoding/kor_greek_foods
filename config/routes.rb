@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
   resources :categories, only: %i[index show]
   resources :orders, only: %i[index show]
+  resources :cart, only: %i[create destroy]
 
   ActiveAdmin.routes(self)
   get 'users/index'
