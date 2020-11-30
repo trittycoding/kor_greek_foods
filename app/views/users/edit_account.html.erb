@@ -22,7 +22,7 @@
     <div class="control">
       <div class="select is-rounded is-success">
 
-          <%= collection_select(:user, :province_id, Province.all, :id, :name)%>
+          <%= select_tag :province_id, options_from_collection_for_select(Province.all, :id, :name, current_user.province_id)%>
       </div>
     </div>
   </div>
