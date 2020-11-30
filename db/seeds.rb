@@ -35,22 +35,22 @@ olives.image.attach(io: File.open('app/assets/images/greenolives.jpg'), filename
 tea.image.attach(io: File.open('app/assets/images/plants.jpg'), filename: 'plants.jpg')
 
 # Creating Provinces
-provinces = [{ name: 'British Columbia', abbreviation: 'B.C.' },
-             { name: 'Alberta', abbreviation: 'AB' },
-             { name: 'Saskatechewan', abbreviation: 'SK' },
-             { name: 'Manitoba', abbreviation: 'MB' },
-             { name: 'Ontario', abbreviation: 'ON' },
-             { name: 'Quebec', abbreviation: 'QC' },
-             { name: 'New Brunswick', abbreviation: 'NB' },
-             { name: 'Prince Edward Island', abbreviation: 'PE' },
-             { name: 'Nova Scotia', abbreviation: 'NS' },
-             { name: 'Newfoundland and Labrador', abbreviation: 'NL' },
-             { name: 'Nunavut', abbreviation: 'NU' },
-             { name: 'Northwest Territories', abbreviation: 'NT' },
-             { name: 'Yukon', abbreviation: 'YK' }]
+provinces = [{ name: 'British Columbia', abbreviation: 'B.C.', taxrate: 0.12, pst: 0.07, gst: 0.05, hst: nil },
+             { name: 'Alberta', abbreviation: 'AB', taxrate: 0.05, pst: nil, gst: 0.05, hst: nil },
+             { name: 'Saskatechewan', abbreviation: 'SK', taxrate: 0.11, pst: 0.06, gst: 0.05, hst: nil },
+             { name: 'Manitoba', abbreviation: 'MB', taxrate: 0.12, pst: 0.07, gst: 0.05, hst: nil },
+             { name: 'Ontario', abbreviation: 'ON', taxrate: 0.13, pst: nil, gst: nil, hst: 0.13 },
+             { name: 'Quebec', abbreviation: 'QC', taxrate: 0.14975, pst: 0.0975, gst: 0.05, hst: nil },
+             { name: 'New Brunswick', abbreviation: 'NB', taxrate: 0.15, pst: nil, gst: nil, hst: 0.15 },
+             { name: 'Prince Edward Island', abbreviation: 'PE', taxrate: 0.15, pst: nil, gst: nil, hst: 0.15 },
+             { name: 'Nova Scotia', abbreviation: 'NS', taxrate: 0.15, pst: nil, gst: nil, hst: 0.15 },
+             { name: 'Newfoundland and Labrador', abbreviation: 'NL', taxrate: 0.15, pst: nil, gst: nil, hst: 0.15 },
+             { name: 'Nunavut', abbreviation: 'NU', taxrate: 0.05, pst: nil, gst: 0.05, hst: nil },
+             { name: 'Northwest Territories', abbreviation: 'NT', taxrate: 0.05, pst: nil, gst: 0.05, hst: nil },
+             { name: 'Yukon', abbreviation: 'YK', taxrate: 0.05, pst: nil, gst: 0.05, hst: nil }]
 
 provinces.each do |province|
-  Province.create(name: province[:name], abbreviation: province[:abbreviation])
+  Province.create(name: province[:name], abbreviation: province[:abbreviation], province[:taxrate], province[:pst], province[:gst], province[:hst])
 end
 
 # Using Faker to generate placeholder data
@@ -61,7 +61,9 @@ end
                            price: Faker::Number.decimal(l_digits: 2, r_digits: 2),
                            category: Category.all.sample,
                            stockquantity: Faker::Number.number(digits: 2),
-                           description: Faker::Food.description)
+                           description: Faker::Food.description,
+                           on_sale: false,
+                           amount_off: nil)
 
   # Calling unsplash API to gather images
   query2 = URI.encode_www_form_component([product.name])
@@ -78,6 +80,15 @@ end
     end
   end
 end
+
+
+25.times do
+  sale_product = Product.all.sample
+  sale_product.on_sale = true
+  sale_product.amount_off = Faker::Number.decimal(l_digits: 0, r_digits: 2)
+  sale_product.save
+end
+
 puts "Created #{Category.count} categories"
 puts "Created #{Product.count} products"
 puts "Created #{Province.count} provinces"
