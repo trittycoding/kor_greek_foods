@@ -60,3 +60,4 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem 'kaminari'
 gem 'react-rails'
 gem 'image_processing'
+gem 'stripe'
