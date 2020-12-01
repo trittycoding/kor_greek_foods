@@ -1,13 +1,8 @@
 class CheckoutController < ApplicationController
-  pst_tax = 0
-  gst_tax = 0
-  hst_tax = 0
   def create
-    user_province = Province.find_by(id: current_user.province_id)
-    province_gst = user_province.gst
-    province_hst = user_province.hst
-    province_pst = user_province.pst
-    @province_taxrate = user_province.taxrate
+    province_gst = gst_get
+    province_hst = hst_get
+    province_pst = pst_get
 
     # Validations for cart items
     session[:user_cart].each do |item|
@@ -96,39 +91,72 @@ class CheckoutController < ApplicationController
 
   def success
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
-    paid = payment_intent[:paid]
+    @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+    paid = @session[:payment_status] == 'paid'
+    stripe_identifier = @session[:id]
+    # logger.debug(@session.inspect)
+    logger.debug(@payment_intent.inspect)
+    logger.debug(paid.inspect)
+    total = @session[:amount_total]
+    converted_total = (total.to_d / 100).round(2)
+    subtotal = converted_total - (converted_total * taxrate_get)
+    paid_order = Order.create(total: converted_total, subtotal: subtotal, user_id: current_user.id,
+                              gst: gst_get, hst: hst_get, pst: pst_get, taxrate: taxrate_get,
+                              paid: paid, stripe_identifier: stripe_identifier)
 
-    if paid
-      paid_order = Order.create(total: @total, user_id: current_user.id,
-                                gst: @gst_tax, hst: @hst_tax, pst: @pst_tax, taxrate: @province_taxrate,
-                                paid: true)
-
-      session[:user_cart].each do |x|
-        quantity_for_item = session[:item_quantity][x.to_s]
-        ProductOrder.create(order_id: paid_order.id, product_id: x.to_i,
-                            unitcost: x.price, quantity: quantity_for_item)
-      end
-
-    else
-      Order.create(total: @total, user_id: current_user.id,
-                   gst: @gst_tax, hst: @hst_tax, pst: @pst_tax, taxrate: @province_taxrate,
-                   paid: false)
+    session[:user_cart].each do |x|
+      product = Product.find(x)
+      quantity_for_item = session[:item_quantity][x.to_s]
+      Productorder.create(order_id: paid_order.id, product_id: product.id,
+                          unitcost: product.price, quantity: quantity_for_item)
     end
+
+    logger.debug(paid_order.inspect)
+    logger.debug(paid_order.errors.messages)
+    console
+
     session[:user_cart] = []
     session[:item_quantity] = {}
   end
 
   def cancel
-    return_from_session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    payment_intent = Stripe::PaymentIntent.retrieve(return_from_session.session.payment_intent)
-    paid = payment_intent[:paid]
-    unless paid?
-      Order.create(total: @total, user_id: current_user.id,
-                   gst: @gst_tax, hst: @hst_tax, pst: @pst_tax, taxrate: @province_taxrate,
-                   paid: false)
-    end
+    @session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+    paid = @session[:payment_status] == 'paid'
+    stripe_identifier = @session[:id]
+    # logger.debug(@session.inspect)
+    logger.debug(@payment_intent.inspect)
+    logger.debug(paid.inspect)
+    total = @session[:amount_total]
+    converted_total = total.to_d / 100
+    subtotal = converted_total - (converted_total * taxrate_get)
+
+    Order.create(total: converted_total, user_id: current_user.id,
+                 gst: gst_get, hst: hst_get, pst: pst_get, taxrate: taxrate_get,
+                 paid: false, stripe_identifier: stripe_identifier)
     session[:user_cart] = []
     session[:item_quantity] = {}
   end
+
+  def pst_get
+    user_province = Province.find_by(id: current_user.province_id)
+    user_province.pst
+  end
+
+  def hst_get
+    user_province = Province.find_by(id: current_user.province_id)
+    user_province.hst
+  end
+
+  def gst_get
+    user_province = Province.find_by(id: current_user.province_id)
+    user_province.gst
+  end
+
+  def taxrate_get
+    user_province = Province.find_by(id: current_user.province_id)
+    user_province.taxrate
+  end
+
+  def total_get; end
 end
