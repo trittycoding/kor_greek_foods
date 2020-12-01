@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # We can turn anything into a helper method in the
   # application controller using -> helper_method :method_name
   # This will be available to any view when declared this way
-  helper_method :cart, :item_quantity_hash, :get_item_quantity
+  helper_method :cart, :item_quantity_hash, :get_item_quantity, :invalid_user_address
 
   private
 
@@ -31,5 +31,15 @@ class ApplicationController < ActionController::Base
 
   def adjust_item_quantity(id_number, quantity)
     session[:item_quantity][id_number] = quantity
+  end
+
+  def invalid_user_address
+    nil_check = current_user.name.nil? || current_user.address.nil? || current_user.province_id.nil?
+    blank_check = current_user.name.blank? || current_user.address.blank? || current_user.province_id.blank?
+    if nil_check || blank_check
+      true
+    else
+      false
+    end
   end
 end

@@ -8,6 +8,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
   </head>
 
   <body>
@@ -42,6 +43,7 @@
             <span class="navbar-item">
               <% if user_signed_in? %>
                 <a class="navbar-item" href="<%= permalink_path('offers')%>">Offers</a>
+                <%= link_to 'Orders', user_orders_path, class: "navbar-item"%>
                 <%= link_to current_user.email, edit_account_path(current_user), method: :get, class: "navbar-item"%>
                 <%=link_to "Sign Out", destroy_user_session_path, method: :delete, class: "button is-link"%>
               <% else %>
@@ -92,7 +94,5 @@
 <%end%>
     <%= yield %>
     <%= render partial: "common/footer"%>
-    <%= debug session[:user_cart] %>
-    <%= debug session[:item_quantity]%>
   </body>
 </html>
