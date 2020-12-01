@@ -1,0 +1,34 @@
+<h2 class="subtitle">User Orders</h2>
+<table class="table is-bordered is-striped">
+  <thead>
+    <tr>
+      <th>Created At</th>
+      <th>Total</th>
+      <th>Subtotal</th>
+      <th>GST</th>
+      <th>HST</th>
+      <th>PST</th>
+      <th>Paid</th>
+      <th>Info</th>
+    </tr>
+  </thead>
+
+  <% @orders.each do |order| %>
+    <tr>
+      <td><%=order.created_at%></td>
+      <td><%=order.total%></td>
+      <td><%=order.subtotal%></td>
+      <td><%=order.gst%></td>
+      <td><%=order.hst%></td>
+      <td><%=order.pst%></td>
+      <% if order.paid == true%>
+        <td>Yes</td>
+      <%else%>
+        <td>No</td>
+      <%end%>
+      <td>
+        <%= link_to 'Details', order_details_path(order)%>
+      </td>
+    </tr>
+  <%end%>
+</table>

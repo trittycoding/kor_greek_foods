@@ -8,6 +8,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
   </head>
 
   <body>
@@ -33,12 +34,23 @@
           <div class="navbar-end">
             <a class="navbar-item is-active" href="<%=root_path%>">Home</a>
             <a class="navbar-item" href="<%=admin_user_session_path%>">Admin</a>
-            <a class="navbar-item" href="<%=admin_user_session_path%>">Login</a>
+            <a class="navbar-item" href="<%=cart_show_path%>">Cart(<%=session[:user_cart].count%>)</a>
+            <% if user_signed_in? %>
+            <% else %>
+              <a class="navbar-item" href="<%=new_user_session_path%>">Login</a>
+            <% end %>
 
             <span class="navbar-item">
-              <a class="button is-link" href="<%=new_user_session_path%>">
-                <span>Create an Account</span>
-              </a>
+              <% if user_signed_in? %>
+                <a class="navbar-item" href="<%= permalink_path('offers')%>">Offers</a>
+                <%= link_to 'Orders', user_orders_path, class: "navbar-item"%>
+                <%= link_to current_user.email, edit_account_path(current_user), method: :get, class: "navbar-item"%>
+                <%=link_to "Sign Out", destroy_user_session_path, method: :delete, class: "button is-link"%>
+              <% else %>
+                <a class="button is-link" href="<%=new_user_session_path%>">
+                  <span>Create an Account</span>
+                </a>
+            <%end%>
             </span>
           </div>
         </div>
@@ -61,13 +73,25 @@
           <li><a href="<%=products_path%>">Products</a></li>
           <li><a>On Sale</a></li>
           <li><a>New Products</a></li>
-          <li><a>About Us</a></li>
+          <li><a href="<%=permalink_path('contact_us')%>">Contact</a></li>
+          <li><a href="<%=permalink_path('about_us')%>">About Us</a></li>
         </ul>
       </div>
     </nav>
   </div>
 </section>
-
+<% if flash[:products_added]%>
+  <p><%= flash[:products_added] %></p>
+<%end%>
+<% if flash[:notice]%>
+  <p><%=flash[:notice]%></p>
+<%end%>
+<% if flash[:product_removed]%>
+  <p><%=flash[:product_removed]%></p>
+<%end%>
+<% if flash[:quantity_adjusted]%>
+  <p><%=flash[:quantity_adjusted]%></p>
+<%end%>
     <%= yield %>
     <%= render partial: "common/footer"%>
   </body>

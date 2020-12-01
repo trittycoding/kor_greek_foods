@@ -1,0 +1,13 @@
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= @page.title %>
+      </h1>
+      <p class="is-medium"><%= @page.content %></p>
+      <% if @page.permalink == 'offers' && user_signed_in?%>
+        <%= link_to "Sign Up For Offers", send_mail_path %>
+      <% end %>
+    </div>
+  </div>
+</section>

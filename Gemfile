@@ -65,8 +65,13 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem 'kaminari'
 gem 'react-rails'
 <<<<<<< HEAD
+<<<<<<< HEAD
 gem 'image_processing'
 >>>>>>> Experimental
 =======
 gem 'image_processing'
+>>>>>>> Experimental
+=======
+gem 'image_processing'
+gem 'stripe'
 >>>>>>> Experimental

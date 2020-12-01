@@ -9,7 +9,10 @@ class ProductsController < ApplicationController
 
   def search
     search_keywords = "%#{params[:keywords]}%"
-    @search_results = Product.where('name LIKE ?', search_keywords).or(Product.where('description LIKE ?', search_keywords))
-    @paginated_search_results = @search_results.page.per(12).padding(4)
+    if params[:category] == ''
+      @search_results = Product.where('name LIKE ?', search_keywords).or(Product.where('description LIKE ?', search_keywords))
+    else
+      @search_results = Product.where('name LIKE ?', search_keywords).or(Product.where('description LIKE ?', search_keywords)).where(category_id: params[:category])
+    end
   end
 end

@@ -1,7 +1,11 @@
 class PagesController < ApplicationController
-  def index
+  def permalink
+    @page = Page.find_by(permalink: params[:permalink])
   end
 
-  def show
+  def send_mail
+    @user = current_user
+    OffersMailer.with(user: @user).offer_email.deliver_now
+    redirect_to root_url
   end
 end

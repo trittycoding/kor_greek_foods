@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_045735) do
+ActiveRecord::Schema.define(version: 2020_12_01_193824) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -70,6 +70,13 @@ ActiveRecord::Schema.define(version: 2020_11_25_045735) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "gst"
+    t.decimal "pst"
+    t.decimal "hst"
+    t.decimal "taxrate"
+    t.boolean "paid"
+    t.decimal "subtotal"
+    t.string "stripe_identifier"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -100,6 +107,8 @@ ActiveRecord::Schema.define(version: 2020_11_25_045735) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
     t.integer "stockquantity"
+    t.boolean "on_sale"
+    t.decimal "amount_off"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
@@ -109,18 +118,22 @@ ActiveRecord::Schema.define(version: 2020_11_25_045735) do
     t.decimal "taxrate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "pst"
+    t.decimal "hst"
+    t.decimal "gst"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.integer "province_id"
     t.string "address"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "province_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["province_id"], name: "index_users_on_province_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -129,4 +142,5 @@ ActiveRecord::Schema.define(version: 2020_11_25_045735) do
   add_foreign_key "productorders", "orders"
   add_foreign_key "productorders", "products"
   add_foreign_key "products", "categories"
+  add_foreign_key "users", "provinces"
 end
