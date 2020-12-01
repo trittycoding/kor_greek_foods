@@ -14,7 +14,8 @@ Rails.application.routes.draw do
     end
   end
   resources :categories, only: %i[index show]
-  resources :orders, only: %i[index show]
+  resources :orders, except: %i[show]
+  get '/orders/user_orders' => 'orders#user_orders', as: :user_orders
   resources :cart, only: %i[create destroy show adjust_quantity]
   get '/cart/show' => 'cart#show', as: :cart_show
   post '/cart/adjust_quantity/' => 'cart#adjust_quantity', as: :adjust_quantity
