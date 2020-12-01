@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   get '/cart/show' => 'cart#show', as: :cart_show
   post '/cart/adjust_quantity/' => 'cart#adjust_quantity', as: :adjust_quantity
 
+  scope '/checkout' do
+    post 'create', to: 'checkout#create', as: 'checkout_create'
+    get 'success', to: 'checkout#success', as: 'checkout_success'
+    get 'cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+  end
+
   ActiveAdmin.routes(self)
   get 'users/index'
   get 'users/show'
